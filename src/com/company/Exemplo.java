@@ -7,12 +7,14 @@ public class Exemplo {
 
     static int frameWidth = 800;
     static int frameHeight = 500;
-    static int index = -1;
 
     public static void main(String[] args) {
 
         Originator originator = new Originator();
         CareTaker careTaker = new CareTaker();
+
+        originator.setState("");
+        careTaker.addMemento(originator.saveStateToMemento());
 
         JFrame frame = new JFrame("Memento | Desing Pattern");
         frame.setSize(frameWidth, frameHeight);
@@ -63,17 +65,15 @@ class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()){
             case "Recuperar":
-                originator.getStateFromMemento(careTaker.getMemento(Exemplo.index));
-                textArea.setText(originator.getState());
-                if(Exemplo.index > 0)
-                    Exemplo.index--;
-                System.out.println(Exemplo.index);
+                Memento mementoRecuperado = careTaker.getMemento();
+                if(mementoRecuperado != null){
+                    originator.getStateFromMemento(mementoRecuperado);
+                    textArea.setText(originator.getState());
+                }
                 break;
             case "Salvar":
                 originator.setState(textArea.getText());
                 careTaker.addMemento(originator.saveStateToMemento());
-                Exemplo.index++;
-                System.out.println(Exemplo.index);
                 break;
         }
     }

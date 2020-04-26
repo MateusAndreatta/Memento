@@ -1,17 +1,30 @@
 package com.company;
 
-import java.util.ArrayList;
+import java.util.Stack;
 
 public class CareTaker {
 
-    private ArrayList<Memento> mementoList = new ArrayList<>();
+    private Stack<Memento> mementoList = new Stack<>();
 
     public void addMemento(Memento state){
-        mementoList.add(state);
+        mementoList.push(state);
+        System.out.println("[CaraTaker] Adicionado: " + state.getState());
     }
 
-    public Memento getMemento(int index){
-        return mementoList.get(index);
+    public Memento getMemento(){
+        if(mementoList.empty()){
+            try {
+                throw new Exception("Exception: Pilha vazia");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }else{
+            Memento removido = mementoList.pop();
+            System.out.println("[CaraTaker] Removido: " + removido.getState());
+            return removido;
+        }
+
+        return null;
     }
 
 }
